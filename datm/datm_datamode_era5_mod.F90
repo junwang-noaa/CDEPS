@@ -35,6 +35,7 @@ module datm_datamode_era5_mod
   real(r8), pointer :: Sa_pbot(:)           => null()
   real(r8), pointer :: Sa_pslv(:)           => null()
   real(r8), pointer :: Faxa_lwdn(:)         => null()
+  real(r8), pointer :: Faxa_lwnet(:)        => null()
   real(r8), pointer :: Faxa_rain(:)         => null()
   real(r8), pointer :: Faxa_rainc(:)        => null()
   real(r8), pointer :: Faxa_rainl(:)        => null()
@@ -92,6 +93,7 @@ contains
     call dshr_fldList_add(fldsExport, 'Sa_v'       )
     call dshr_fldList_add(fldsExport, 'Sa_wspd'    )
     call dshr_fldList_add(fldsExport, 'Sa_tbot'    )
+    call dshr_fldList_add(fldsExport, 'Sa_tskn'    )
     call dshr_fldList_add(fldsExport, 'Sa_ptem'    )
     call dshr_fldList_add(fldsExport, 'Sa_dens'    )
     call dshr_fldList_add(fldsExport, 'Sa_pslv'    )
@@ -106,9 +108,10 @@ contains
     call dshr_fldList_add(fldsExport, 'Faxa_swvdr' )
     call dshr_fldList_add(fldsExport, 'Faxa_swndf' )
     call dshr_fldList_add(fldsExport, 'Faxa_swvdf' )
+    call dshr_fldList_add(fldsExport, 'Faxa_swdn'  )
     call dshr_fldList_add(fldsExport, 'Faxa_swnet' )
     call dshr_fldList_add(fldsExport, 'Faxa_lwdn'  )
-    call dshr_fldList_add(fldsExport, 'Faxa_swdn'  )
+    call dshr_fldList_add(fldsExport, 'Faxa_lwnet'  )
     call dshr_fldList_add(fldsExport, 'Faxa_sen'   )
     call dshr_fldList_add(fldsExport, 'Faxa_lat'   )
     call dshr_fldList_add(fldsExport, 'Faxa_taux'  )
@@ -183,6 +186,8 @@ contains
     call dshr_state_getfldptr(exportState, 'Faxa_swnet' , fldptr1=Faxa_swnet , rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
     call dshr_state_getfldptr(exportState, 'Faxa_swdn'  , fldptr1=Faxa_swdn  , rc=rc)
+    if (ChkErr(rc,__LINE__,u_FILE_u)) return
+    call dshr_state_getfldptr(exportState, 'Faxa_lwnet' , fldptr1=Faxa_lwnet , rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
     call dshr_state_getfldptr(exportState, 'Faxa_lwdn'  , fldptr1=Faxa_lwdn  , rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
@@ -276,8 +281,11 @@ contains
        Faxa_swvdf(n) = Faxa_swdn(n)*Faxa_swvdf(n)
        Faxa_swndf(n) = Faxa_swdn(n)*Faxa_swndf(n)
 
+       !--- TODO: need to understand relationship between shortwave bands and net shortwave rad.
+       !--- currently it is provided directly from ERA5 and the total of the bands are not
+       !--- consistent with the swnet
        !--- swnet: a diagnostic quantity ---
-       Faxa_swnet(n) = Faxa_swndr(n) + Faxa_swvdr(n) + Faxa_swndf(n) + Faxa_swvdf(n)
+       !Faxa_swnet(n) = Faxa_swndr(n) + Faxa_swvdr(n) + Faxa_swndf(n) + Faxa_swvdf(n)
     end do
 
     !----------------------------------------------------------
@@ -286,6 +294,7 @@ contains
 
     ! convert J/m^2 to W/m^2
     Faxa_lwdn(:) = Faxa_lwdn(:)/3600.0_r8
+    Faxa_lwnet(:) = Faxa_lwnet(:)/3600.0_r8
     Faxa_swdn(:) = Faxa_swdn(:)/3600.0_r8
     Faxa_swvdr(:) = Faxa_swvdr(:)/3600.0_r8
     Faxa_swndr(:) = Faxa_swndr(:)/3600.0_r8
