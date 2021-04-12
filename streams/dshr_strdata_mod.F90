@@ -34,7 +34,12 @@ module dshr_strdata_mod
   use dshr_stream_mod  , only : shr_stream_streamtype, shr_stream_getModelFieldList, shr_stream_getStreamFieldList
   use dshr_stream_mod  , only : shr_stream_taxis_cycle, shr_stream_taxis_extend, shr_stream_findBounds
   use dshr_stream_mod  , only : shr_stream_getCurrFile, shr_stream_setCurrFile, shr_stream_getMeshFilename
-  use dshr_stream_mod  , only : shr_stream_init_from_xml, shr_stream_init_from_inline
+  use dshr_stream_mod  , only : shr_stream_init_from_inline
+#ifdef UFS_CDEPS
+  use dshr_configread_mod,only: shr_configread
+#else
+  use dshr_stream_mod  , only : shr_stream_init_from_xml
+#endif
   use dshr_stream_mod  , only : shr_stream_getnextfilename, shr_stream_getprevfilename, shr_stream_getData
   use dshr_tinterp_mod , only : shr_tInterp_getCosz, shr_tInterp_getAvgCosz, shr_tInterp_getFactors
   use dshr_methods_mod , only : dshr_fldbun_getfldptr, dshr_fldbun_getfieldN, dshr_fldbun_fldchk, chkerr
@@ -210,8 +215,14 @@ contains
     ! Initialize sdat streams (read xml file for streams)
     sdat%masterproc = (localPet == master_task)
 
+#ifdef UFS_CDEPS
+    config_filename = 'datm_configure'
+    call shr_configread(config_filename, sdat%stream, sdat%logunit, &
+         sdat%pio_subsystem, sdat%io_type, sdat%io_format, rc=rc)
+#else
     call shr_stream_init_from_xml(xmlfilename, sdat%stream, sdat%masterproc, sdat%logunit, &
          sdat%pio_subsystem, sdat%io_type, sdat%io_format, trim(compname), rc=rc)
+#endif
 
     allocate(sdat%pstrm(shr_strdata_get_stream_count(sdat)))
 

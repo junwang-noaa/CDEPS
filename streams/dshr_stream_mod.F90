@@ -41,7 +41,9 @@ module dshr_stream_mod
   public :: shr_stream_streamType        ! stream data type with private components
 
   ! !PUBLIC MEMBER FUNCTIONS:
+#ifndef UFS_CDEPS
   public :: shr_stream_init_from_xml
+#endif
   public :: shr_stream_init_from_inline  ! initial stream type
   public :: shr_stream_findBounds        ! return lower/upper bounding date info
   public :: shr_stream_getMeshFileName   ! return stream filename
@@ -122,6 +124,7 @@ module dshr_stream_mod
 contains
 !===============================================================================
 
+#ifndef UFS_CDEPS
   subroutine shr_stream_init_from_xml(xmlfilename, streamdat, isroot_task, logunit, &
                                       pio_subsystem, io_type, io_format, compname, rc)
     use FoX_DOM, only : extractDataContent, destroy, Node, NodeList, parseFile, getElementsByTagname
@@ -375,6 +378,8 @@ contains
     streamdat(:)%init = .true.
 
   end subroutine shr_stream_init_from_xml
+
+#endif
 
   !===============================================================================
 
