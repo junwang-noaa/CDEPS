@@ -1,7 +1,6 @@
 set(SRCFILES  dshr_methods_mod.F90
 	      dshr_strdata_mod.F90
 	      dshr_stream_mod.F90
-	      dshr_configread_mod.F90
 	      dshr_tinterp_mod.F90)
 
 set(MODFILES ${SRCFILES})
