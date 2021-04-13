@@ -192,6 +192,7 @@ contains
     ! local variables
     type(ESMF_VM) :: vm
     integer       :: i, localPet
+    character(CL)                :: config_filename
     character(len=*), parameter  :: subname='(shr_strdata_init_from_xml)'
     ! ----------------------------------------------
     rc = ESMF_SUCCESS
