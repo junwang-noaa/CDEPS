@@ -493,6 +493,7 @@ contains
     use esmf             , only : ESMF_VM, ESMF_VMGetCurrent, ESMF_VMBroadCast
     use esmf             , only : ESMF_SUCCESS, ESMF_ConfigCreate, ESMF_ConfigLoadFile
     use esmf             , only : ESMF_ConfigGetLen, ESMF_ConfigGetAttribute
+    use esmf             , only : ESMF_Config                                
 
     !!---------------------------------------------------------------------
     !! The configuration file is a text file that can have following entries
