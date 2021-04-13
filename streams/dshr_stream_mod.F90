@@ -41,7 +41,7 @@ module dshr_stream_mod
   public :: shr_stream_streamType        ! stream data type with private components
 
   ! !PUBLIC MEMBER FUNCTIONS:
-#ifndef UFS_CDEPS
+#ifndef UFS
   public :: shr_stream_init_from_xml
 #endif
   public :: shr_stream_init_from_inline  ! initial stream type
@@ -124,7 +124,7 @@ module dshr_stream_mod
 contains
 !===============================================================================
 
-#ifndef UFS_CDEPS
+#ifndef UFS
   subroutine shr_stream_init_from_xml(xmlfilename, streamdat, isroot_task, logunit, &
                                       pio_subsystem, io_type, io_format, compname, rc)
     use FoX_DOM, only : extractDataContent, destroy, Node, NodeList, parseFile, getElementsByTagname

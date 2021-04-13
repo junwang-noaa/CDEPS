@@ -9,10 +9,11 @@ module dshr_configread_mod
 !! series of data.
 !!-------------------------------------------------------------------------------
 
-  use esmf        , only : ESMF_VM, ESMF_VMGetCurrent, ESMF_VMBroadCast, ESMF_SUCCESS
-  use esmf        , only : ESMF_ConfigCreate, ESMF_ConfigLoadFile, ESMF_ConfigGetLen
-  use esmf        , only : ESMF_ConfigGetAttribute
-  use shr_sys_mod , only : shr_sys_abort
+  use esmf             , only : ESMF_VM, ESMF_VMGetCurrent, ESMF_VMBroadCast
+  use esmf             , only : ESMF_SUCCESS, ESMF_ConfigCreate, ESMF_ConfigLoadFile
+  use esmf             , only : ESMF_ConfigGetLen, ESMF_ConfigGetAttribute
+  use shr_sys_mod      , only : shr_sys_abort
+  use dshr_methods_mod , only : chkerr
 
   public shr_configread
 
@@ -56,6 +57,8 @@ module dshr_configread_mod
     character(2)             :: mystrm
     character(*),parameter   :: subName = '(shr_configread)'
     character(len=ESMF_MAXSTR), allocatable :: strm_tmpstrings(:)
+    character(*) , parameter :: u_FILE_u = __FILE__
+
     ! ---------------------------------------------------------------------
 
     rc = ESMF_SUCCESS
@@ -79,12 +82,16 @@ module dshr_configread_mod
     if( nstrms > 0 ) then
       allocate(streamdat(nstrms))
     else
-      call shr_sys_abort("no stream_info in config file "//trim(conf_filename)); 
+      call shr_sys_abort("no stream_info in config file "//trim(conf_filename))
     endif
 
     ! fill in non-default values for the streamdat attributes
     do i=1, nstrms
-      write(mystram,'("I2")') i
+      if( nstrms == 1 ) then
+        mystrm=''
+      else
+        write(mystram,'("I2")') i
+      endif 
       call ESMF_ConfigGetAttribute(CF,value=streamdat(i)%taxmode,label="taxmode"//mystrm, rc=rc)
       if (ChkErr(rc,__LINE__,u_FILE_u)) return
     
@@ -145,7 +152,7 @@ module dshr_configread_mod
         call shr_sys_abort("stream_lev_dimname must be provided")
       endif
 
-      ! get a list of stream file names
+      ! Get a list of stream file names
       streamdat(i)%nfiles = ESMF_ConfigGetLen(config=CF, label="stream_data_files"//mystrm, rc=rc)
       if( streamdat(i)%nfiles > 0) then
         allocate(streamdat(i)%file( streamdat(i)%nfiles))
@@ -160,7 +167,7 @@ module dshr_configread_mod
         call shr_sys_abort("stream data files must be provided")
       endif
 
-      ! get name of stream variables in file and model
+      ! Get name of stream variables in file and model
       streamdat(i)%nvars = ESMF_ConfigGetLen(config=CF, label="stream_data_variables"//mystrm, rc=rc) 
       if( streamdat(i)%nvars > 0) then
         allocate(streamdat(i)%varlist(streamdat(i)%nvars))
@@ -174,6 +181,7 @@ module dshr_configread_mod
         call shr_sys_abort("stream data variables must be provided")
       endif
 
+      ! Initialize stream pio
       streamdat(i)%pio_subsystem => pio_subsystem
       streamdat(i)%pio_iotype = io_type
       streamdat(i)%pio_ioformat = io_format
