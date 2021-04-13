@@ -493,7 +493,7 @@ contains
     use esmf             , only : ESMF_VM, ESMF_VMGetCurrent, ESMF_VMBroadCast
     use esmf             , only : ESMF_SUCCESS, ESMF_ConfigCreate, ESMF_ConfigLoadFile
     use esmf             , only : ESMF_ConfigGetLen, ESMF_ConfigGetAttribute
-    use esmf             , only : ESMF_Config                                
+    use esmf             , only : ESMF_Config, ESMF_MAXSTR
 
     !!---------------------------------------------------------------------
     !! The configuration file is a text file that can have following entries
@@ -636,7 +636,7 @@ contains
         call ESMF_ConfigGetAttribute(CF,valueList=strm_tmpstrings, label="stream_data_files"//mystrm, rc=rc)
         if (ChkErr(rc,__LINE__,u_FILE_u)) return
         do n=1,streamdat(i)%nfiles
-          streamdat(i)%file(n)%name = trim(strm_tmpstrings)
+          streamdat(i)%file(n)%name = trim(strm_tmpstrings(i))
         enddo
         deallocate(strm_tmpstrings)
       else
@@ -650,8 +650,8 @@ contains
         allocate(strm_tmpstrings(streamdat(i)%nvars))
         call ESMF_ConfigGetAttribute(CF,valueList=strm_tmpstrings,label="stream_data_variables"//mystrm, rc=rc)
         do n=1, streamdat(i)%nvars
-          streamdat(i)%varlist(n)%nameinfile = strm_tmpstrings(n)(1:index(tmpstr, " "))
-          streamdat(i)%varlist(n)%nameinmodel = strm_tmpstrings(n)index(trim(tmpstr), " ", .true.)+1:)
+          streamdat(i)%varlist(n)%nameinfile = strm_tmpstrings(n)(1:index(trim(strm_tmpstrings(n)), " "))
+          streamdat(i)%varlist(n)%nameinmodel = strm_tmpstrings(n)(index(trim(strm_tmpstrings(n)), " ", .true.)+1:)
         enddo
       else
         call shr_sys_abort("stream data variables must be provided")
