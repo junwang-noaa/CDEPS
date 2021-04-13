@@ -15,9 +15,9 @@ module dshr_configread_mod
   use shr_sys_mod      , only : shr_sys_abort
   use dshr_methods_mod , only : chkerr
 
-  public shr_configread
+  public shr_stream_init_from_esmfconfig
 
-  subroutine shr_configread(conf_filename, streamdat, logunit,   &
+  subroutine shr_stream_init_from_esmfconfig(conf_filename, streamdat, logunit,   &
                             pio_subsystem, io_type, io_format, rc)
 
     !!---------------------------------------------------------------------
@@ -90,7 +90,7 @@ module dshr_configread_mod
       if( nstrms == 1 ) then
         mystrm=''
       else
-        write(mystram,'("I2")') i
+        write(mystrm,'("I2")') i
       endif 
       call ESMF_ConfigGetAttribute(CF,value=streamdat(i)%taxmode,label="taxmode"//mystrm, rc=rc)
       if (ChkErr(rc,__LINE__,u_FILE_u)) return
@@ -200,6 +200,6 @@ module dshr_configread_mod
     ! initialize flag that stream has been set
     streamdat(:)%init = .true.
 
-  end subroutine shr_configread
+  end subroutine shr_stream_init_from_esmfconfig
 
 end module dshr_configread_mod

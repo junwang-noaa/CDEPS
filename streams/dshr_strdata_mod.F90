@@ -35,8 +35,8 @@ module dshr_strdata_mod
   use dshr_stream_mod  , only : shr_stream_taxis_cycle, shr_stream_taxis_extend, shr_stream_findBounds
   use dshr_stream_mod  , only : shr_stream_getCurrFile, shr_stream_setCurrFile, shr_stream_getMeshFilename
   use dshr_stream_mod  , only : shr_stream_init_from_inline
-#ifdef UFS
-  use dshr_configread_mod,only: shr_configread
+#ifdef NOT_USE_FoX
+  use dshr_configread_mod,only: shr_stream_init_from_esmfconfig
 #else
   use dshr_stream_mod  , only : shr_stream_init_from_xml
 #endif
@@ -215,9 +215,9 @@ contains
     ! Initialize sdat streams (read xml file for streams)
     sdat%masterproc = (localPet == master_task)
 
-#ifdef UFS
+#ifdef NOT_USE_FoX
     config_filename = 'datm_configure'
-    call shr_configread(config_filename, sdat%stream, sdat%logunit, &
+    call shr_stream_init_from_esmfconfig(config_filename, sdat%stream, sdat%logunit, &
          sdat%pio_subsystem, sdat%io_type, sdat%io_format, rc=rc)
 #else
     call shr_stream_init_from_xml(xmlfilename, sdat%stream, sdat%masterproc, sdat%logunit, &
