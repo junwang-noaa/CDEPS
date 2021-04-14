@@ -41,9 +41,8 @@ module dshr_stream_mod
   public :: shr_stream_streamType        ! stream data type with private components
 
   ! !PUBLIC MEMBER FUNCTIONS:
-#ifdef DISABLE_FoX
   public :: shr_stream_init_from_esmfconfig
-#else
+#ifndef DISABLE_FoX
   public :: shr_stream_init_from_xml
 #endif
   public :: shr_stream_init_from_inline  ! initial stream type
