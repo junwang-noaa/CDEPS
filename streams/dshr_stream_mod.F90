@@ -127,7 +127,7 @@ contains
 !===============================================================================
 
 #ifndef DISABLE_FoX
-  subroutine shr_stream_init_from_xml(xmlfilename, streamdat, isroot_task, logunit, &
+  subroutine shr_stream_init_from_xml(streamfilename, streamdat, isroot_task, logunit, &
                                       pio_subsystem, io_type, io_format, compname, rc)
     use FoX_DOM, only : extractDataContent, destroy, Node, NodeList, parseFile, getElementsByTagname
     use FoX_DOM, only : getLength, item
@@ -161,7 +161,7 @@ contains
     ! ---------------------------------------------------------------------
 
     ! input/output variables
-    character(len=*), optional  , intent(in)             :: xmlfilename
+    character(len=*), optional  , intent(in)             :: streamfilename
     type(shr_stream_streamType) , intent(inout), pointer :: streamdat(:)
     logical                     , intent(in)             :: isroot_task
     integer                     , intent(in)             :: logunit
@@ -189,9 +189,9 @@ contains
 
     if (isroot_task) then
 
-       Sdoc => parseFile(xmlfilename, iostat=status)
+       Sdoc => parseFile(streamfilename, iostat=status)
        if (status /= 0) then
-          call shr_sys_abort("Could not parse file "//trim(xmlfilename))
+          call shr_sys_abort("Could not parse file "//trim(streamfilename))
        endif
        streamlist => getElementsByTagname(Sdoc, "stream_info")
        nstrms = getLength(streamlist)
@@ -487,7 +487,7 @@ contains
   end subroutine shr_stream_init_from_inline
 
   !===============================================================================
-  subroutine shr_stream_init_from_esmfconfig(conf_filename, streamdat, logunit,   &
+  subroutine shr_stream_init_from_esmfconfig(streamfilename, streamdat, logunit,   &
                             pio_subsystem, io_type, io_format, rc)
 
     use esmf             , only : ESMF_VM, ESMF_VMGetCurrent, ESMF_VMBroadCast
@@ -517,7 +517,7 @@ contains
     !!---------------------------------------------------------------------
 
     ! input/output variables
-    character(len=*), optional  , intent(in)             :: conf_filename
+    character(len=*), optional  , intent(in)             :: streamfilename
     type(shr_stream_streamType) , intent(inout), pointer :: streamdat(:)
     integer                     , intent(in)             :: logunit
     type(iosystem_desc_t)       , intent(in), pointer    :: pio_subsystem
@@ -530,7 +530,7 @@ contains
     type(ESMF_Config)        :: cf
     integer                  :: i, n, nstrms
     character(2)             :: mystrm
-    character(*),parameter   :: subName = '(shr_configread)'
+    character(*),parameter   :: subName = '(shr_stream_init_from_esmfconfig)'
     character(len=ESMF_MAXSTR), allocatable :: strm_tmpstrings(:)
     character(*) , parameter :: u_FILE_u = __FILE__
 
@@ -546,7 +546,7 @@ contains
 
     ! set ESMF config
     cf =  ESMF_ConfigCreate(rc=RC)
-    call ESMF_ConfigLoadFile(config=CF ,filename=trim(conf_filename), rc=rc)
+    call ESMF_ConfigLoadFile(config=CF ,filename=trim(streamfilename), rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
 
 
@@ -558,7 +558,7 @@ contains
     if( nstrms > 0 ) then
       allocate(streamdat(nstrms))
     else
-      call shr_sys_abort("no stream_info in config file "//trim(conf_filename))
+      call shr_sys_abort("no stream_info in config file "//trim(streamfilename))
     endif
 
     ! fill in non-default values for the streamdat attributes
