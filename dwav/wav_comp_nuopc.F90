@@ -273,10 +273,9 @@ contains
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
 
     ! Initialize stream data type if not aqua planet
-#ifdef DISABLE_FoX
     streamfilename = 'dwav.streams'//trim(inst_suffix)
-#else
-    streamfilename = 'dwav.streams'//trim(inst_suffix)//'.xml'
+#ifndef DISABLE_FoX
+    streamfilename = trim(streamfilename)//'.xml'
 #endif
     call shr_strdata_init_from_config(sdat, streamfilename, model_mesh, clock, 'WAV', logunit, rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return

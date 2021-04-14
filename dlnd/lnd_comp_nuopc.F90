@@ -287,10 +287,9 @@ contains
          model_mask, model_frac, restart_read, rc=rc)
 
     ! Initialize stream data type
-#ifdef DISABLE_FoX
     streamfilename = 'dlnd.streams'//trim(inst_suffix)
-#else
-    streamfilename = 'dlnd.streams'//trim(inst_suffix)//'.xml'
+#ifndef DISABLE_FoX
+    streamfilename = trim(streamfilename)'.xml'
 #endif
     call shr_strdata_init_from_config(sdat, streamfilename, model_mesh, clock, 'LND', logunit, rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return

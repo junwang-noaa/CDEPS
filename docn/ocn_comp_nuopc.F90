@@ -329,10 +329,9 @@ contains
 
     ! Initialize stream data type if not aqua planet
     if (.not. aquaplanet) then
-#ifdef DISABLE_FoX
        streamfilename = trim(modelname)//'.streams'//trim(inst_suffix)
-#else
-       streamfilename = trim(modelname)//'.streams'//trim(inst_suffix)//'.xml'
+#ifndef DISABLE_FoX
+       streamfilename = trim(streamfilename)//'.xml'
 #endif
        call shr_strdata_init_from_config(sdat, streamfilename, model_mesh, clock, 'OCN', logunit, rc=rc)
        if (ChkErr(rc,__LINE__,u_FILE_u)) return

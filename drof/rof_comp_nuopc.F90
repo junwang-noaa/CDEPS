@@ -285,10 +285,9 @@ contains
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
 
     ! Initialize stream data type
-#ifdef DISABLE_FOX
     streamfilename = 'drof.streams'//trim(inst_suffix)
-#else
-    streamfilename = 'drof.streams'//trim(inst_suffix)//'.xml'
+#ifndef DISABLE_FOX
+    streamfilename = trim(streamfilename)//'.xml'
 #endif
     call shr_strdata_init_from_config(sdat, streamfilename, model_mesh, clock, 'ROF', logunit, rc=rc)
     if (ChkErr(rc,__LINE__,u_FILE_u)) return
