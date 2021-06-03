@@ -1,4 +1,4 @@
-module rof_comp_nuopc
+module cdeps_drof_comp_nuopc
 
   !----------------------------------------------------------------------------
   ! This is the NUOPC cap for DROF
@@ -74,7 +74,7 @@ module rof_comp_nuopc
   logical                      :: diagnose_data = .true.
   integer      , parameter     :: master_task=0                       ! task number of master task
   character(*) , parameter     :: rpfile = 'rpointer.rof'
-  character(*) , parameter     :: modName =  "(rof_comp_nuopc)"
+  character(*) , parameter     :: modName =  "(cdeps_drof_comp_nuopc)"
 
   ! linked lists
   type(fldList_type) , pointer :: fldsExport => null()
@@ -156,9 +156,9 @@ contains
     logical           :: exists     ! check for file existence
     type(fldlist_type), pointer :: fldList
     character(len=*),parameter :: subname=trim(modName)//':(InitializeAdvertise) '
-    character(*)    ,parameter :: F00 = "('(rof_comp_nuopc) ',8a)"
-    character(*)    ,parameter :: F01 = "('(rof_comp_nuopc) ',a,2x,i8)"
-    character(*)    ,parameter :: F02 = "('(rof_comp_nuopc) ',a,l6)"
+    character(*)    ,parameter :: F00 = "('(cdeps_drof_comp_nuopc) ',8a)"
+    character(*)    ,parameter :: F01 = "('(cdeps_drof_comp_nuopc) ',a,2x,i8)"
+    character(*)    ,parameter :: F02 = "('(cdeps_drof_comp_nuopc) ',a,l6)"
     !-------------------------------------------------------------------------------
 
     namelist / drof_nml / datamode, model_meshfile, model_maskfile, &
@@ -244,7 +244,7 @@ contains
     integer         :: current_mon  ! model month
     integer         :: current_day  ! model day
     integer         :: current_tod  ! model sec into model date
-    character(len=*), parameter :: F00   = "('rof_comp_nuopc: ')',8a)"
+    character(len=*), parameter :: F00   = "('cdeps_drof_comp_nuopc: ')',8a)"
     character(len=*), parameter :: subname=trim(modName)//':(InitializeRealize) '
     !-------------------------------------------------------------------------------
 
@@ -454,4 +454,4 @@ contains
     end if
   end subroutine ModelFinalize
 
-end module rof_comp_nuopc
+end module cdeps_drof_comp_nuopc

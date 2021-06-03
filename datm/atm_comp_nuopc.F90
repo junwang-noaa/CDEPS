@@ -1,4 +1,4 @@
-module atm_comp_nuopc
+module cdeps_datm_comp_nuopc
 
   !----------------------------------------------------------------------------
   ! This is the NUOPC cap for DATM
@@ -142,7 +142,7 @@ module atm_comp_nuopc
   logical                      :: diagnose_data = .true.
   integer          , parameter :: master_task   = 0                   ! task number of master task
   character(len=*) , parameter :: rpfile        = 'rpointer.atm'
-  character(*)     , parameter :: modName       = "(atm_comp_nuopc)"
+  character(*)     , parameter :: modName       = "(cdeps_datm_comp_nuopc)"
 
   character(*), parameter :: u_FILE_u = &
        __FILE__
@@ -210,10 +210,10 @@ contains
     integer           :: nu         ! unit number
     integer           :: ierr       ! error code
     logical           :: exists     ! check for file existence
-    character(len=*),parameter :: subname='(atm_comp_nuopc):(InitializeAdvertise) '
-    character(*)    ,parameter :: F00 = "('(atm_comp_nuopc) ',8a)"
-    character(*)    ,parameter :: F01 = "('(atm_comp_nuopc) ',a,2x,i8)"
-    character(*)    ,parameter :: F02 = "('(atm_comp_nuopc) ',a,l6)"
+    character(len=*),parameter :: subname='(cdeps_datm_comp_nuopc):(InitializeAdvertise) '
+    character(*)    ,parameter :: F00 = "('(cdeps_datm_comp_nuopc) ',8a)"
+    character(*)    ,parameter :: F01 = "('(cdeps_datm_comp_nuopc) ',a,2x,i8)"
+    character(*)    ,parameter :: F02 = "('(cdeps_datm_comp_nuopc) ',a,l6)"
     !-------------------------------------------------------------------------------
 
     namelist / datm_nml / datamode, &
@@ -834,4 +834,4 @@ contains
     end if
   end subroutine ModelFinalize
 
-end module atm_comp_nuopc
+end module cdeps_datm_comp_nuopc

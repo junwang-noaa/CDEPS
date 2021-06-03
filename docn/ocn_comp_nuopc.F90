@@ -1,4 +1,4 @@
-module ocn_comp_nuopc
+module cdeps_docn_comp_nuopc
 
   !----------------------------------------------------------------------------
   ! This is the NUOPC cap for DOCN
@@ -107,7 +107,7 @@ module ocn_comp_nuopc
   logical                      :: aquaplanet = .false.
   logical                      :: diagnose_data = .true.
   integer      , parameter     :: master_task = 0                 ! task number of master task
-  character(*) , parameter     :: module_name = "(ocn_comp_nuopc)"
+  character(*) , parameter     :: module_name = "(cdeps_docn_comp_nuopc)"
   character(*) , parameter     :: modelname = 'docn'
   character(*) , parameter     :: u_FILE_u = &
        __FILE__
@@ -175,10 +175,10 @@ contains
     integer           :: ierr               ! error code
     logical           :: exists             ! check for file existence
     character(len=*),parameter :: subname=trim(module_name)//':(InitializeAdvertise) '
-    character(*)    ,parameter :: F00 = "('(ocn_comp_nuopc) ',8a)"
-    character(*)    ,parameter :: F01 = "('(ocn_comp_nuopc) ',a,2x,i8)"
-    character(*)    ,parameter :: F02 = "('(ocn_comp_nuopc) ',a,l6)"
-    character(*)    ,parameter :: F03 = "('(ocn_comp_nuopc) ',a,f8.5,2x,f8.5)"
+    character(*)    ,parameter :: F00 = "('(cdeps_docn_comp_nuopc) ',8a)"
+    character(*)    ,parameter :: F01 = "('(cdeps_docn_comp_nuopc) ',a,2x,i8)"
+    character(*)    ,parameter :: F02 = "('(cdeps_docn_comp_nuopc) ',a,l6)"
+    character(*)    ,parameter :: F03 = "('(cdeps_docn_comp_nuopc) ',a,f8.5,2x,f8.5)"
     !-------------------------------------------------------------------------------
 
     namelist / docn_nml / datamode, &
@@ -614,4 +614,4 @@ contains
     end if
   end subroutine ModelFinalize
 
-end module ocn_comp_nuopc
+end module cdeps_docn_comp_nuopc

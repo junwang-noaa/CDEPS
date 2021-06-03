@@ -1,4 +1,4 @@
-module ice_comp_nuopc
+module cdeps_dice_comp_nuopc
 
   !----------------------------------------------------------------------------
   ! This is the NUOPC cap for DICE
@@ -97,7 +97,7 @@ module ice_comp_nuopc
 
   logical                      :: diagnose_data = .true.
   integer      , parameter     :: master_task=0                       ! task number of master task
-  character(*) , parameter     :: modName =  "(ice_comp_nuopc)"
+  character(*) , parameter     :: modName =  "(cdeps_dice_comp_nuopc)"
   character(*) , parameter     :: u_FILE_u = &
        __FILE__
 
@@ -164,10 +164,10 @@ contains
     integer           :: ierr               ! error code
     logical           :: exists             ! check for file existence
     character(len=*),parameter  :: subname=trim(modName)//':(InitializeAdvertise) '
-    character(*)    ,parameter :: F00 = "('(ice_comp_nuopc) ',8a)"
-    character(*)    ,parameter :: F01 = "('(ice_comp_nuopc) ',a,2x,i8)"
-    character(*)    ,parameter :: F02 = "('(ice_comp_nuopc) ',a,l6)"
-    character(*)    ,parameter :: F03 = "('(ice_comp_nuopc) ',a,d13.5)"
+    character(*)    ,parameter :: F00 = "('(cdeps_dice_comp_nuopc) ',8a)"
+    character(*)    ,parameter :: F01 = "('(cdeps_dice_comp_nuopc) ',a,2x,i8)"
+    character(*)    ,parameter :: F02 = "('(cdeps_dice_comp_nuopc) ',a,l6)"
+    character(*)    ,parameter :: F03 = "('(cdeps_dice_comp_nuopc) ',a,d13.5)"
     !-------------------------------------------------------------------------------
 
     namelist / dice_nml / case_name, datamode, &
@@ -271,7 +271,7 @@ contains
     integer                     :: fieldcount
     real(r8), pointer           :: fldptr(:)
     integer                     :: n
-    character(len=*), parameter :: F00   = "('ice_comp_nuopc: ')',8a)"
+    character(len=*), parameter :: F00   = "('cdeps_dice_comp_nuopc: ')',8a)"
     character(len=*), parameter :: subname=trim(modName)//':(InitializeRealize) '
     !-------------------------------------------------------------------------------
 
@@ -551,4 +551,4 @@ contains
     end if
   end subroutine ModelFinalize
 
-end module ice_comp_nuopc
+end module cdeps_dice_comp_nuopc

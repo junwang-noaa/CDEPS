@@ -1,4 +1,4 @@
-module lnd_comp_nuopc
+module cdeps_dlnd_comp_nuopc
 
   !----------------------------------------------------------------------------
   ! This is the NUOPC cap for DLND
@@ -92,7 +92,7 @@ module lnd_comp_nuopc
   logical                      :: diagnose_data = .true.
   integer      , parameter     :: master_task=0                   ! task number of master task
   character(*) , parameter     :: rpfile = 'rpointer.lnd'
-  character(*) , parameter     :: modName =  "(lnd_comp_nuopc)"
+  character(*) , parameter     :: modName =  "(cdeps_dlnd_comp_nuopc)"
   character(*) , parameter     :: u_FILE_u = &
        __FILE__
 
@@ -159,9 +159,9 @@ contains
     integer       :: ierr       ! error code
     logical           :: exists     ! check for file existence
     character(len=*) , parameter :: subname=trim(modName)//':(InitializeAdvertise) '
-    character(*)     , parameter :: F00 = "('(lnd_comp_nuopc) ',8a)"
-    character(*)     , parameter :: F01 = "('(lnd_comp_nuopc) ',a,2x,i8)"
-    character(*)     , parameter :: F02 = "('(lnd_comp_nuopc) ',a,l6)"
+    character(*)     , parameter :: F00 = "('(cdeps_dlnd_comp_nuopc) ',8a)"
+    character(*)     , parameter :: F01 = "('(cdeps_dlnd_comp_nuopc) ',a,2x,i8)"
+    character(*)     , parameter :: F02 = "('(cdeps_dlnd_comp_nuopc) ',a,l6)"
     !-------------------------------------------------------------------------------
 
     namelist / dlnd_nml / datamode, model_meshfile, model_maskfile, &
@@ -559,4 +559,4 @@ contains
 
   end subroutine dlnd_comp_run
 
-end module lnd_comp_nuopc
+end module cdeps_dlnd_comp_nuopc

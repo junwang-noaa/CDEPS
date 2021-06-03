@@ -1,4 +1,4 @@
-module wav_comp_nuopc
+module cdeps_dwav_comp_nuopc
 
   !----------------------------------------------------------------------------
   ! This is the NUOPC cap for DWAV
@@ -77,7 +77,7 @@ module wav_comp_nuopc
   logical                      :: diagnose_data = .true.
   integer      , parameter     :: master_task=0                       ! task number of master task
   character(*) , parameter     :: rpfile = 'rpointer.wav'
-  character(*) , parameter     :: modName =  "(wav_comp_nuopc)"
+  character(*) , parameter     :: modName =  "(cdeps_dwav_comp_nuopc)"
 
   ! linked lists
   type(fldList_type) , pointer :: fldsExport => null()
@@ -154,9 +154,9 @@ contains
     integer           :: ierr               ! error code
     logical           :: exists
     character(len=*),parameter  :: subname=trim(modName)//':(InitializeAdvertise) '
-    character(*)    ,parameter :: F00 = "('(wav_comp_nuopc) ',8a)"
-    character(*)    ,parameter :: F01 = "('(wav_comp_nuopc) ',a,2x,i8)"
-    character(*)    ,parameter :: F02 = "('(wav_comp_nuopc) ',a,l6)"
+    character(*)    ,parameter :: F00 = "('(cdeps_dwav_comp_nuopc) ',8a)"
+    character(*)    ,parameter :: F01 = "('(cdeps_dwav_comp_nuopc) ',a,2x,i8)"
+    character(*)    ,parameter :: F02 = "('(cdeps_dwav_comp_nuopc) ',a,l6)"
     !-------------------------------------------------------------------------------
 
     namelist / dwav_nml / datamode, model_meshfile, model_maskfile, &
@@ -493,4 +493,4 @@ contains
 
   end subroutine dwav_comp_run
 
-end module wav_comp_nuopc
+end module cdeps_dwav_comp_nuopc
