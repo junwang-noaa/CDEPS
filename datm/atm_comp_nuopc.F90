@@ -1,4 +1,8 @@
-module cdeps_datm_comp_nuopc
+#ifdef CESMCOUPLED
+module atm_comp_nuopc
+#else
+module cdeps_datm_comp
+#endif
 
   !----------------------------------------------------------------------------
   ! This is the NUOPC cap for DATM
@@ -142,7 +146,11 @@ module cdeps_datm_comp_nuopc
   logical                      :: diagnose_data = .true.
   integer          , parameter :: master_task   = 0                   ! task number of master task
   character(len=*) , parameter :: rpfile        = 'rpointer.atm'
-  character(*)     , parameter :: modName       = "(cdeps_datm_comp_nuopc)"
+#ifdef CESMCOUPLED
+  character(*)     , parameter :: modName       = "(atm_comp_nuopc)"
+#else
+  character(*)     , parameter :: modName       = "(cdeps_datm_comp)"
+#endif
 
   character(*), parameter :: u_FILE_u = &
        __FILE__
@@ -210,10 +218,10 @@ contains
     integer           :: nu         ! unit number
     integer           :: ierr       ! error code
     logical           :: exists     ! check for file existence
-    character(len=*),parameter :: subname='(cdeps_datm_comp_nuopc):(InitializeAdvertise) '
-    character(*)    ,parameter :: F00 = "('(cdeps_datm_comp_nuopc) ',8a)"
-    character(*)    ,parameter :: F01 = "('(cdeps_datm_comp_nuopc) ',a,2x,i8)"
-    character(*)    ,parameter :: F02 = "('(cdeps_datm_comp_nuopc) ',a,l6)"
+    character(len=*),parameter :: subname=trim(modName) // ':(InitializeAdvertise) '
+    character(*)    ,parameter :: F00 = "('(" // trim(modName) // ") ',8a)"
+    character(*)    ,parameter :: F01 = "('(" // trim(modName) // ") ',a,2x,i8)"
+    character(*)    ,parameter :: F02 = "('(" // trim(modName) // ") ',a,l6)"
     !-------------------------------------------------------------------------------
 
     namelist / datm_nml / datamode, &
@@ -834,4 +842,8 @@ contains
     end if
   end subroutine ModelFinalize
 
-end module cdeps_datm_comp_nuopc
+#ifdef CESMCOUPLED
+end module atm_comp_nuopc
+#else
+end module cdeps_datm_comp
+#endif

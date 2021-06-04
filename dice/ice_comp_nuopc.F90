@@ -1,4 +1,8 @@
-module cdeps_dice_comp_nuopc
+#ifdef CESMCOUPLED
+module ice_comp_nuopc
+#else
+module cdeps_dice_comp
+#endif
 
   !----------------------------------------------------------------------------
   ! This is the NUOPC cap for DICE
@@ -97,7 +101,11 @@ module cdeps_dice_comp_nuopc
 
   logical                      :: diagnose_data = .true.
   integer      , parameter     :: master_task=0                       ! task number of master task
-  character(*) , parameter     :: modName =  "(cdeps_dice_comp_nuopc)"
+#ifdef CESMCOUPLED
+  character(*) , parameter     :: modName =  "(ice_comp_nuopc)"
+#else
+  character(*) , parameter     :: modName =  "(cdeps_dice_comp)"
+#endif
   character(*) , parameter     :: u_FILE_u = &
        __FILE__
 
@@ -164,10 +172,10 @@ contains
     integer           :: ierr               ! error code
     logical           :: exists             ! check for file existence
     character(len=*),parameter  :: subname=trim(modName)//':(InitializeAdvertise) '
-    character(*)    ,parameter :: F00 = "('(cdeps_dice_comp_nuopc) ',8a)"
-    character(*)    ,parameter :: F01 = "('(cdeps_dice_comp_nuopc) ',a,2x,i8)"
-    character(*)    ,parameter :: F02 = "('(cdeps_dice_comp_nuopc) ',a,l6)"
-    character(*)    ,parameter :: F03 = "('(cdeps_dice_comp_nuopc) ',a,d13.5)"
+    character(*)    ,parameter :: F00 = "('(" // trim(modName) // ") ',8a)"
+    character(*)    ,parameter :: F01 = "('(" // trim(modName) // ") ',a,2x,i8)"
+    character(*)    ,parameter :: F02 = "('(" // trim(modName) // ") ',a,l6)"
+    character(*)    ,parameter :: F03 = "('(" // trim(modName) // ") ',a,d13.5)"
     !-------------------------------------------------------------------------------
 
     namelist / dice_nml / case_name, datamode, &
@@ -271,7 +279,7 @@ contains
     integer                     :: fieldcount
     real(r8), pointer           :: fldptr(:)
     integer                     :: n
-    character(len=*), parameter :: F00   = "('cdeps_dice_comp_nuopc: ')',8a)"
+    character(len=*), parameter :: F00   = "('" // trim(modName) // ": ')',8a)"
     character(len=*), parameter :: subname=trim(modName)//':(InitializeRealize) '
     !-------------------------------------------------------------------------------
 
@@ -551,4 +559,8 @@ contains
     end if
   end subroutine ModelFinalize
 
-end module cdeps_dice_comp_nuopc
+#ifdef CESMCOUPLED
+end module ice_comp_nuopc
+#else
+end module cdeps_dice_comp
+#endif
