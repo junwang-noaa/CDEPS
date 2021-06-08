@@ -162,9 +162,9 @@ contains
     integer           :: ierr               ! error code
     logical           :: exists
     character(len=*),parameter  :: subname=trim(modName)//':(InitializeAdvertise) '
-    character(*)    ,parameter :: F00 = "('(" trim(modName) // ") ',8a)"
-    character(*)    ,parameter :: F01 = "('(" trim(modName) // ") ',a,2x,i8)"
-    character(*)    ,parameter :: F02 = "('(" trim(modName) // ") ',a,l6)"
+    character(*)    ,parameter :: F00 = "('(" // trim(modName) // ") ',8a)"
+    character(*)    ,parameter :: F01 = "('(" // trim(modName) // ") ',a,2x,i8)"
+    character(*)    ,parameter :: F02 = "('(" // trim(modName) // ") ',a,l6)"
     !-------------------------------------------------------------------------------
 
     namelist / dwav_nml / datamode, model_meshfile, model_maskfile, &
